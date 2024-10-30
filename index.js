@@ -6,18 +6,18 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 2500;
 
-// CORS configuration
+
 const corsOptions = {
-  origin: "http://localhost:3000", // Change this to your frontend URL when deployed
+  origin: "http://localhost:3000",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  credentials: true,
 };
 
-// Apply CORS middleware
+
 app.use(cors(corsOptions));
 
-// Handle preflight requests
+
 app.options("*", cors(corsOptions));
 
 app.use(express.json());
@@ -40,7 +40,7 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something broke!");
 });
 
-// Start the server
+
 app.listen(PORT, () => {
   console.log(`Express server running at http://localhost:${PORT}/`);
 });
