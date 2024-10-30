@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": "20.12.2",
   "builds": [
     {
       "src": "index.js", 
@@ -11,11 +11,5 @@
       "src": "/(.*)",
       "dest": "/index.js" 
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "engines": {
-    "node": "20.12.2"
-  }
+  ]
 }
