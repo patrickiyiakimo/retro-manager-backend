@@ -44,21 +44,20 @@ const invite_team = async (req, res) => {
   try {
     await pool.query("BEGIN");
 
-    await pool.query(
-      "INSERT INTO inviteteams (invited_email, uuid) VALUES ($1, $2)",
-      [invitedEmail, uuid]
-    );
+    await pool.query("INSERT INTO inviteteams (invited_email, uuid) VALUES ($1, $2)", [
+      invitedEmail,
+      uuid,
+    ]);
 
     await pool.query(
       "UPDATE dashboard SET participants_count = participants_count + 1 WHERE dashboard_id = $1",
-      [dashboardId] 
+      [dashboardId]
     );
 
     await pool.query("COMMIT");
 
     res.status(201).json({ message: "Invitation sent successfully" });
   } catch (error) {
- 
     try {
       await pool.query("ROLLBACK");
     } catch (rollbackError) {
@@ -94,7 +93,7 @@ const get_invitations = async (req, res) => {
 
       return {
         ...invitation,
-        dateMessage, 
+        dateMessage,
       };
     });
 
