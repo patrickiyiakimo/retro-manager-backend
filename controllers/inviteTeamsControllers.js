@@ -100,7 +100,7 @@ const get_invitations = async (req, res) => {
     res.json(formattedInvitations);
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(500); // Bad request
+    res.sendStatus(500); 
   }
 };
 
