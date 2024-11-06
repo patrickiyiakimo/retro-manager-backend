@@ -12,7 +12,7 @@ async function newStandups(req, res) {
     res.json(newStandup.rows[0]);
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); // Bad request
+    res.sendStatus(400); 
   }
 }
 
