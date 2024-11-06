@@ -51,7 +51,7 @@ async function updateStandup(req, res) {
     res.json("Standup was updated");
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); // Bad request
+    res.sendStatus(400); 
   }
 }
 
