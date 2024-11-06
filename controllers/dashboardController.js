@@ -41,7 +41,7 @@ const delete_dashboard = async (req, res) => {
     res.json("Dashboard deleted successfully");
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); // Bad request
+    res.sendStatus(400); 
   }
 };
 
