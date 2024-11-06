@@ -113,7 +113,7 @@ const accept_invitation = async (req, res) => {
     res.json({ message: "Invitation accepted successfully" });
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(500); // Bad request
+    res.sendStatus(500); 
   }
 };
 
