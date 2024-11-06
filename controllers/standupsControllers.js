@@ -23,7 +23,7 @@ async function standups(req, res) {
     res.json(standups.rows);
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); // Bad request
+    res.sendStatus(400); 
   }
 }
 
