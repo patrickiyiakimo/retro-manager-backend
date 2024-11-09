@@ -7,18 +7,21 @@ const app = express();
 const PORT = process.env.PORT || 2500;
 
 
-const corsOptions = {
-  origin: "http://localhost:3000",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: "http://localhost:3000",
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true,
+// };
 
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 
-app.options("*", cors(corsOptions));
+// app.options("*", cors(corsOptions));
+
+app.use(cors());
+app.options("*", cors());
 
 app.use(express.json());
 
