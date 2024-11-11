@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 2500;
 app.use(cors());
 app.options("*", cors());
 
-// JSON parsing middleware
 app.use(express.json());
 
 // Configure Sequelize connection
