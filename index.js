@@ -14,25 +14,24 @@ app.options("*", cors());
 app.use(express.json());
 
 // Configure Sequelize connection
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: "postgres",
-  protocol: "postgres",
-  logging: false,
-  dialectOptions: {
-    ssl: true, 
-  },
- 
-});
+// const sequelize = new Sequelize(process.env.DATABASE_URL, {
+//   dialect: "postgres",
+//   protocol: "postgres",
+//   logging: false,
+//   dialectOptions: {
+//     ssl: true,
+//   },
+// });
 
-// Test the connection
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Database connected successfully");
-  })
-  .catch((err) => {
-    console.error("Error connecting to the database:", err);
-  });
+// // Test the connection
+// sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log("Database connected successfully");
+//   })
+//   .catch((err) => {
+//     console.error("Error connecting to the database:", err);
+//   });
 
 // Routes
 app.use("/register", require("./routes/register"));
@@ -48,10 +47,10 @@ app.get("/", (req, res) => {
 });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send("Something broke!");
+// });
 
 // Start server
 app.listen(PORT, () => {
