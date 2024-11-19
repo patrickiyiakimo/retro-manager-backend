@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
 const { Sequelize } = require("sequelize");
+const bodyParser = require("body-parser")
 require("dotenv").config();
 
 const app = express();
@@ -45,6 +46,9 @@ app.use("/generateId", require("./routes/generateId"));
 app.get("/", (req, res) => {
   res.send("Hello from Retro Manager!");
 });
+
+app.use(bodyParser.json({ limit: "50Mb" }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Error handling middleware
 // app.use((err, req, res, next) => {
