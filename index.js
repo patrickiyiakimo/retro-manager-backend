@@ -2,11 +2,11 @@
 // const cors = require("cors");
 // const { v4: uuidv4 } = require("uuid");
 // const { Sequelize } = require("sequelize");
-// const bodyParser = require("body-parser")
+// const bodyParser = require("body-parser");
 // require("dotenv").config();
+// const Pool = require("pg").Pool;
 
 // const app = express();
-// const PORT = process.env.PORT || 2500;
 
 // // CORS configuration
 // app.use(cors());
@@ -34,6 +34,13 @@
 // //     console.error("Error connecting to the database:", err);
 // //   });
 
+// // const pool = new Pool({
+// //   connectionString: process.env.DATABASE_URL,
+// //   ssl: {
+// //     rejectUnauthorized: false,
+// //   },
+// // });
+
 // // Routes
 // app.use("/register", require("./routes/register"));
 // app.use("/login", require("./routes/login"));
@@ -57,11 +64,69 @@
 // // });
 
 // // Start server
-// app.listen(PORT, () => {
+// app.listen(process.env.PORT, () => {
 //   console.log(`Express server running at http://localhost:${PORT}/`);
 // });
 
+//another section
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+require("dotenv").config();
 
+const pool = require("./config/db"); // Import the database connection
+
+const app = express();
+const PORT = process.env.PORT || 2500; // Use Vercel-assigned PORT or fallback
+
+// CORS configuration
+app.use(cors());
+app.options("*", cors());
+
+// Middleware
+app.use(express.json());
+app.use(bodyParser.json({ limit: "50Mb" }));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Root route
+app.get("/", (req, res) => {
+  res.send("Hello from Retro Manager!");
+});
+
+// Example test route to verify database
+app.get("/test-db", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()"); // Sample query
+    res.json({ success: true, timestamp: result.rows[0].now });
+  } catch (err) {
+    console.error("Error querying the database:", err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// Include your routes
+app.use("/register", require("./routes/register"));
+app.use("/login", require("./routes/login"));
+app.use("/standups", require("./routes/standups"));
+app.use("/invites", require("./routes/invites"));
+app.use("/dashboard", require("./routes/dashboard"));
+app.use("/generateId", require("./routes/generateId"));
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error("Error occurred:", err);
+  res.status(500).json({
+    error: true,
+    message: err.message || "Internal Server Error",
+  });
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}/`);
+});
+
+// another section
 
 // const express = require("express");
 // const cors = require("cors");
@@ -85,7 +150,6 @@
 
 // // Construct the database connection string
 // const databaseUrl = `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
-
 
 // // Debugging: Log the constructed URL (avoid logging sensitive data in production)
 // console.log("Database URL:", databaseUrl);
@@ -147,104 +211,92 @@
 // // Export the app for serverless deployment
 // module.exports = app;
 
+// // another section
 
+// const express = require("express");
+// const cors = require("cors");
+// const { Sequelize } = require("sequelize");
+// require("dotenv").config();
 
+// const app = express();
+// const PORT = process.env.PORT || 2500;
 
+// // CORS configuration
+// app.use(cors());
+// app.options("*", cors());
 
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 
+// // Fetch environment variables
+// // const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE, NODE_ENV } = process.env;
 
+// // // Construct the database connection string securely
+// // const databaseUrl = `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
 
-const express = require("express");
-const cors = require("cors");
-const { Sequelize } = require("sequelize");
-require("dotenv").config();
+// // // Sequelize Database Connection
+// // const sequelize = new Sequelize(databaseUrl, {
+// //   dialect: "postgres",
+// //   protocol: "postgres",
+// //   logging: NODE_ENV === "production" ? false : console.log, // Disable logging in production
+// //   dialectOptions: {
+// //     ssl: NODE_ENV === "production" ? { require: true, rejectUnauthorized: false } : false,
+// //   },
+// // });
 
-const app = express();
-const PORT = process.env.PORT || 2500;
+// // // Test connection
+// // sequelize
+// //   .authenticate()
+// //   .then(() => console.log("Database connected successfully"))
+// //   .catch((err) => console.error("Error connecting to the database:", err));
 
-// CORS configuration
-app.use(cors());
-app.options("*", cors());
+// // // Routes
+// // app.use("/register", require("./routes/register"));
+// // app.use("/login", require("./routes/login"));
+// // app.use("/standups", require("./routes/standups"));
+// // app.use("/invites", require("./routes/invites"));
+// // app.use("/dashboard", require("./routes/dashboard"));
+// // app.use("/generateId", require("./routes/generateId"));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// // // Root route
+// // app.get("/", (req, res) => {
+// //   res.send("Hello from Retro Manager!");
+// // });
 
-// Fetch environment variables
-// const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE, NODE_ENV } = process.env;
+// // // Error handling middleware
+// // app.use((err, req, res, next) => {
+// //   console.error(err.stack);
+// //   res.status(500).json({
+// //     error: true,
+// //     message: err.message || "Internal Server Error",
+// //   });
+// // });
 
-// // Construct the database connection string securely
+// // // Export the app for serverless deployment
+// // module.exports = app;
+
+// const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE } = process.env;
+
 // const databaseUrl = `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
 
-// // Sequelize Database Connection
 // const sequelize = new Sequelize(databaseUrl, {
 //   dialect: "postgres",
 //   protocol: "postgres",
-//   logging: NODE_ENV === "production" ? false : console.log, // Disable logging in production
+//   logging: false,
 //   dialectOptions: {
-//     ssl: NODE_ENV === "production" ? { require: true, rejectUnauthorized: false } : false,
+//     ssl:
+//       process.env.NODE_ENV === "production" ? { require: true, rejectUnauthorized: false } : false,
 //   },
 // });
 
+// const connectDatabase = async () => {
+//   try {
+//     await sequelize.authenticate(); // Make sure this is inside an async function
+//     console.log("Database connected successfully");
+//   } catch (error) {
+//     console.error("Error connecting to the database:", error);
+//   }
+// };
 
-// // Test connection
-// sequelize
-//   .authenticate()
-//   .then(() => console.log("Database connected successfully"))
-//   .catch((err) => console.error("Error connecting to the database:", err));
-
-
-
-// // Routes
-// app.use("/register", require("./routes/register"));
-// app.use("/login", require("./routes/login"));
-// app.use("/standups", require("./routes/standups"));
-// app.use("/invites", require("./routes/invites"));
-// app.use("/dashboard", require("./routes/dashboard"));
-// app.use("/generateId", require("./routes/generateId"));
-
-// // Root route
-// app.get("/", (req, res) => {
-//   res.send("Hello from Retro Manager!");
-// });
-
-// // Error handling middleware
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).json({
-//     error: true,
-//     message: err.message || "Internal Server Error",
-//   });
-// });
-
-// // Export the app for serverless deployment
-// module.exports = app;
-
-
-
-
-
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE } = process.env;
-
-const databaseUrl = `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
-
-const sequelize = new Sequelize(databaseUrl, {
-  dialect: "postgres",
-  protocol: "postgres",
-  logging: false,
-  dialectOptions: {
-    ssl:
-      process.env.NODE_ENV === "production" ? { require: true, rejectUnauthorized: false } : false,
-  },
-});
-
-const connectDatabase = async () => {
-  try {
-    await sequelize.authenticate(); // Make sure this is inside an async function
-    console.log("Database connected successfully");
-  } catch (error) {
-    console.error("Error connecting to the database:", error);
-  }
-};
-
-// Call the async function to connect to the database
-connectDatabase();
+// // Call the async function to connect to the database
+// connectDatabase();
