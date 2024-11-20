@@ -5,6 +5,8 @@ const cors = require("cors");
 const { Sequelize } = require("sequelize");
 const bodyParser = require("body-parser");
 const Pool = require("pg").Pool;
+const PORT = process.env.PORT || 2500;
+
 
 const app = express();
 
@@ -44,13 +46,6 @@ const pool = new Pool({
   },
 });
 
-// const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: {
-//     rejectUnauthorized: false, // Accept self-signed certificates
-//   },
-// });
-
 //middleware
 app.use(express.json());
 
@@ -64,5 +59,9 @@ app.use("/generateId", require("./routes/generateId"));
 
 app.use(bodyParser.json({ limit: "50Mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 
 module.exports = app;
