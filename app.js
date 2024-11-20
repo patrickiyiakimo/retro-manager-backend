@@ -5,7 +5,7 @@ const cors = require("cors");
 const { Sequelize } = require("sequelize");
 const bodyParser = require("body-parser");
 const Pool = require("pg").Pool;
-const PORT = process.env.PORT || 2500;
+const PORT = process.env.PORT || 10000;
 
 
 const app = express();
