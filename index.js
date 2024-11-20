@@ -5,19 +5,26 @@ const { Sequelize } = require("sequelize");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const Pool = require("pg").Pool;
-const PORT = process.env.PORT || 2500;
+// const PORT = process.env.PORT || 2500;
 
-const app = express();
+const index = express();
 
 
 // CORS configuration
-app.use(cors());
-app.options("*", cors());
+// app.use(cors());
+// app.options("*", cors());
+index.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
 //middleware
-app.use(express.json());
-app.use(bodyParser.json({ limit: "50Mb" }));
-app.use(bodyParser.urlencoded({ extended: true }));
+index.use(express.json());
+index.use(bodyParser.json({ limit: "50Mb" }));
+index.use(bodyParser.urlencoded({ extended: true }));
 
 
 // Configure Sequelize connection
@@ -48,29 +55,33 @@ const pool = new Pool({
 });
 
 // Routes
-app.use("/register", require("./routes/register"));
-app.use("/login", require("./routes/login"));
-app.use("/standups", require("./routes/standups"));
-app.use("/invites", require("./routes/invites"));
-app.use("/dashboard", require("./routes/dashboard"));
-app.use("/generateId", require("./routes/generateId"));
+index.use("/register", require("./routes/register"));
+index.use("/login", require("./routes/login"));
+index.use("/standups", require("./routes/standups"));
+index.use("/invites", require("./routes/invites"));
+index.use("/dashboard", require("./routes/dashboard"));
+index.use("/generateId", require("./routes/generateId"));
 
 // Root route
-app.get("/", (req, res) => {
-  res.send("Hello from Retro Manager!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello from Retro Manager!");
+// });
 
+index.use(bodyParser.json({ limit: "50Mb" }));
+index.use(bodyParser.urlencoded({ extended: true }));
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
+module.exports = index;
+
+// // Error handling middleware
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send("Something broke!");
+// });
 
 // Start server
-app.listen(process.env.PORT, () => {
-  console.log(`Express server running at http://localhost:${PORT}/`);
-});
+// app.listen(process.env.PORT, () => {
+//   console.log(`Express server running at http://localhost:${PORT}/`);
+// });
 
 // //another section
 // const express = require("express");
