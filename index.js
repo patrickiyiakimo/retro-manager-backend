@@ -1,110 +1,53 @@
-// const express = require("express");
-// const cors = require("cors");
-// const { v4: uuidv4 } = require("uuid");
-// const { Sequelize } = require("sequelize");
-// const bodyParser = require("body-parser");
-// require("dotenv").config();
-// const Pool = require("pg").Pool;
-
-// const app = express();
-
-// // CORS configuration
-// app.use(cors());
-// app.options("*", cors());
-
-// app.use(express.json());
-
-// // Configure Sequelize connection
-// // const sequelize = new Sequelize(process.env.DATABASE_URL, {
-// //   dialect: "postgres",
-// //   protocol: "postgres",
-// //   logging: false,
-// //   dialectOptions: {
-// //     ssl: true,
-// //   },
-// // });
-
-// // // Test the connection
-// // sequelize
-// //   .authenticate()
-// //   .then(() => {
-// //     console.log("Database connected successfully");
-// //   })
-// //   .catch((err) => {
-// //     console.error("Error connecting to the database:", err);
-// //   });
-
-// // const pool = new Pool({
-// //   connectionString: process.env.DATABASE_URL,
-// //   ssl: {
-// //     rejectUnauthorized: false,
-// //   },
-// // });
-
-// // Routes
-// app.use("/register", require("./routes/register"));
-// app.use("/login", require("./routes/login"));
-// app.use("/standups", require("./routes/standups"));
-// app.use("/invites", require("./routes/invites"));
-// app.use("/dashboard", require("./routes/dashboard"));
-// app.use("/generateId", require("./routes/generateId"));
-
-// // Root route
-// app.get("/", (req, res) => {
-//   res.send("Hello from Retro Manager!");
-// });
-
-// app.use(bodyParser.json({ limit: "50Mb" }));
-// app.use(bodyParser.urlencoded({ extended: true }));
-
-// // Error handling middleware
-// // app.use((err, req, res, next) => {
-// //   console.error(err.stack);
-// //   res.status(500).send("Something broke!");
-// // });
-
-// // Start server
-// app.listen(process.env.PORT, () => {
-//   console.log(`Express server running at http://localhost:${PORT}/`);
-// });
-
-//another section
 const express = require("express");
 const cors = require("cors");
+const { v4: uuidv4 } = require("uuid");
+const { Sequelize } = require("sequelize");
 const bodyParser = require("body-parser");
 require("dotenv").config();
-
-const pool = require("./config/db"); // Import the database connection
+const Pool = require("pg").Pool;
+const PORT = process.env.PORT || 2500;
 
 const app = express();
-const PORT = process.env.PORT || 2500; // Use Vercel-assigned PORT or fallback
+
 
 // CORS configuration
 app.use(cors());
 app.options("*", cors());
 
-// Middleware
+//middleware
 app.use(express.json());
 app.use(bodyParser.json({ limit: "50Mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Root route
-app.get("/", (req, res) => {
-  res.send("Hello from Retro Manager!");
+
+// Configure Sequelize connection
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: "postgres",
+  protocol: "postgres",
+  logging: false,
+  dialectOptions: {
+    ssl: true,
+  },
 });
 
-// Example test route to verify database
-app.get("/test-db", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT NOW()"); // Sample query
-    res.json({ success: true, timestamp: result.rows[0].now });
-  } catch (err) {
-    console.error("Error querying the database:", err);
-    res.status(500).json({ success: false, error: err.message });
-  }
+// Test the connection
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Database connected successfully");
+  })
+  .catch((err) => {
+    console.error("Error connecting to the database:", err);
+  });
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
-// Include your routes
+// Routes
 app.use("/register", require("./routes/register"));
 app.use("/login", require("./routes/login"));
 app.use("/standups", require("./routes/standups"));
@@ -112,19 +55,84 @@ app.use("/invites", require("./routes/invites"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/generateId", require("./routes/generateId"));
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error("Error occurred:", err);
-  res.status(500).json({
-    error: true,
-    message: err.message || "Internal Server Error",
-  });
+// Root route
+app.get("/", (req, res) => {
+  res.send("Hello from Retro Manager!");
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
 });
+
+// Start server
+app.listen(process.env.PORT, () => {
+  console.log(`Express server running at http://localhost:${PORT}/`);
+});
+
+// //another section
+// const express = require("express");
+// const cors = require("cors");
+// const bodyParser = require("body-parser");
+// require("dotenv").config();
+
+// const pool = require("./config/db"); // Import the database connection
+
+// const app = express();
+// const PORT = process.env.PORT || 2500; // Use Vercel-assigned PORT or fallback
+
+// // CORS configuration
+// app.use(cors());
+// app.options("*", cors());
+
+// // Middleware
+// app.use(express.json());
+// app.use(bodyParser.json({ limit: "50Mb" }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+// // Root route
+// app.get("/", (req, res) => {
+//   res.send("Hello from Retro Manager!");
+// });
+
+// // Example test route to verify database
+// app.get("/test-db", async (req, res) => {
+//   try {
+//     const result = await pool.query("SELECT NOW()"); // Sample query
+//     res.json({ success: true, timestamp: result.rows[0].now });
+//   } catch (err) {
+//     console.error("Error querying the database:", err);
+//     res.status(500).json({ success: false, error: err.message });
+//   }
+// });
+
+// // Include your routes
+// app.use("/register", require("./routes/register"));
+// app.use("/login", require("./routes/login"));
+// app.use("/standups", require("./routes/standups"));
+// app.use("/invites", require("./routes/invites"));
+// app.use("/dashboard", require("./routes/dashboard"));
+// app.use("/generateId", require("./routes/generateId"));
+
+// // Error handling middleware
+// app.use((err, req, res, next) => {
+//   console.error("Error occurred:", err);
+//   res.status(500).json({
+//     error: true,
+//     message: err.message || "Internal Server Error",
+//   });
+// });
+
+// app.all("*", (req, res)=>{
+//   res.status(404).send("Resource Not Found")
+// })
+
+// // Start the server
+// app.listen(PORT, () => {
+//   console.log(`Server running at http://localhost:${PORT}/`);
+// });
 
 // another section
 
