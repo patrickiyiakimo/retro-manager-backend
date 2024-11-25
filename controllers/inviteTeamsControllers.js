@@ -29,7 +29,7 @@ const invite_team = async (req, res) => {
     from: process.env.EMAIL_USER,
     to: invitedEmail,
     subject: "You have been invited!",
-    text: `You have been invited. Please click on the following link to accept the invitation: http://your-app-url.com/accept-invitation/${uuid}`,
+    text: `You have been invited. Please click on the following link to accept the invitation: http://localhost:3000/accept-invitation/${uuid}`,
   };
 
   try {
