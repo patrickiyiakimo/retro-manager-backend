@@ -27,9 +27,9 @@ CREATE TABLE dashboard (
     dashboard_id BIGSERIAL PRIMARY KEY,
     created_at DATE DEFAULT CURRENT_DATE,
     participants_count INT DEFAULT 0,
-    creator_id BIGINT NOT NULL, 
+    creator_id BIGINT NOT NULL,
     team_name VARCHAR(255),
-    FOREIGN KEY (creator_id) REFERENCES users(user_id) ON DELETE CASCADE 
+    FOREIGN KEY (creator_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE standups(

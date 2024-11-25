@@ -23,7 +23,7 @@ const dashboard = async (req, res) => {
     res.json(result.rows[0]);
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); 
+    res.sendStatus(400);
   }
 };
 
@@ -41,7 +41,7 @@ const delete_dashboard = async (req, res) => {
     res.json("Dashboard deleted successfully");
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); 
+    res.sendStatus(400);
   }
 };
 

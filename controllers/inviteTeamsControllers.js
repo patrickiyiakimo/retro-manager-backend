@@ -100,7 +100,7 @@ const get_invitations = async (req, res) => {
     res.json(formattedInvitations);
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(500); 
+    res.sendStatus(500);
   }
 };
 
@@ -113,7 +113,7 @@ const accept_invitation = async (req, res) => {
     res.json({ message: "Invitation accepted successfully" });
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(500); 
+    res.sendStatus(500);
   }
 };
 
@@ -126,7 +126,7 @@ const decline_invitation = async (req, res) => {
     res.json({ message: "Invitation declined successfully" });
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(500); 
+    res.sendStatus(500);
   }
 };
 
@@ -139,7 +139,7 @@ const delete_invitation = async (req, res) => {
     res.json({ message: "Invitation deleted successfully" });
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(500); 
+    res.sendStatus(500);
   }
 };
 

@@ -12,7 +12,7 @@ async function newStandups(req, res) {
     res.json(newStandup.rows[0]);
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); 
+    res.sendStatus(400);
   }
 }
 
@@ -23,7 +23,7 @@ async function standups(req, res) {
     res.json(standups.rows);
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); 
+    res.sendStatus(400);
   }
 }
 
@@ -35,7 +35,7 @@ async function getStandup(req, res) {
     res.json(standup.rows[0]);
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); 
+    res.sendStatus(400);
   }
 }
 
@@ -51,7 +51,7 @@ async function updateStandup(req, res) {
     res.json("Standup was updated");
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); 
+    res.sendStatus(400);
   }
 }
 
@@ -63,7 +63,7 @@ async function deleteStandup(req, res) {
     res.json("Standup was deleted");
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(400); 
+    res.sendStatus(400);
   }
 }
 

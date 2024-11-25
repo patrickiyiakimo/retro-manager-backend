@@ -1,12 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-// const { v4: uuidv4 } = require("uuid");
 const { Sequelize } = require("sequelize");
 const bodyParser = require("body-parser");
 const Pool = require("pg").Pool;
 const PORT = process.env.PORT || 10000;
-
 
 const app = express();
 

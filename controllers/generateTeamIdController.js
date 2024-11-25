@@ -8,7 +8,7 @@ const generate_uuid = async (req, res) => {
     res.json({ uuid });
   } catch (error) {
     console.error(error.message);
-    res.sendStatus(500); 
+    res.sendStatus(500);
   }
 };
 

@@ -34,7 +34,7 @@ const handleLogin = async (req, res) => {
 
     const refreshToken = jwt.sign(
       { user_id: user.rows[0].user_id },
-      process.env.REFRESH_TOKEN_SECRET, 
+      process.env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: "1d",
       }
@@ -48,13 +48,6 @@ const handleLogin = async (req, res) => {
 };
 
 module.exports = { handleLogin };
-
-
-
-
-
-
-
 
 // const bcrypt = require("bcrypt");
 // const jwt = require("jsonwebtoken");
