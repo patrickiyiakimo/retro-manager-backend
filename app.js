@@ -54,6 +54,7 @@ app.use("/standups", require("./routes/standups"));
 app.use("/invites", require("./routes/invites"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/generateId", require("./routes/generateId"));
+app.use("/url", require("./routes/url"))
 
 app.use(bodyParser.json({ limit: "50Mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
