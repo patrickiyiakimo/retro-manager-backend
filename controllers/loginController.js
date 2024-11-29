@@ -10,7 +10,6 @@ const handleLogin = async (req, res) => {
   }
 
   try {
-    // Check if user's email exists
     const user = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
     if (user.rows.length === 0) {
       return res.sendStatus(401); // Unauthorized
