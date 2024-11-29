@@ -4,7 +4,6 @@ const pool = require("../config/db");
 require("dotenv").config();
 
 const handleLogin = async (req, res) => {
-  //validate user
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password are required" });
