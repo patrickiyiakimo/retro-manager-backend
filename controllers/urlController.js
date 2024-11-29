@@ -15,7 +15,7 @@ const url_generatedId = async (req, res) => {
     ]);
 
     // Construct the retrospective URL
-    const baseUrl = process.env.BASE_URL || "http://localhost:3000"; // Update with your frontend URL
+    const baseUrl = process.env.BASE_URL || "http://localhost:3000";
     const fullUrl = `${baseUrl}/retrospective/${result.rows[0].uuid}`;
 
     // Return the full URL
