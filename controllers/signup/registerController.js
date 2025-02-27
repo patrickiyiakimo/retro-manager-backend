@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
-const pool = require("../config/db");
-const { sendMail } = require("./mailSend");
+const pool = require("../../config/db");
+const { sendMail } = require("../mail/mailSend");
 require("dotenv").config();
 
 const handleNewUser = async (req, res) => {

@@ -1,4 +1,4 @@
-const pool = require("../config/db");
+const pool = require("../../config/db");
 require("dotenv").config();
 
 const getAllDashboard = async (req, res) => {

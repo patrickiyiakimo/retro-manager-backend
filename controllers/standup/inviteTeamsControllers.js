@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../config/db");
+const pool = require("../../config/db");
 const { v4: uuidv4 } = require("uuid");
 const dashboardId = "0";
 const nodemailer = require("nodemailer");
